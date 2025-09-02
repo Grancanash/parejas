@@ -115,7 +115,7 @@ document.getElementById('cuadricula').addEventListener('mouseup', (e) => {
     padre = cajaActual.parentElement;
 
     // Si la caja actual ya está resuelta (encontró pareja) o se está ejecutando la animaci´ñon de volteo, no continuamos ejecutando el código
-    if (cajaActual.dataset.resuelto || volteando) return;
+    if (cajaActual.dataset.resuelto || volteando || !cajaActual.classList.contains('card')) return;
 
     // Se eliminan los bordes discontinuos de las cajas sobre las que arrastramos la anteriormente seleccionada
     for (const caja of document.querySelectorAll('#cuadricula .card-container')) {
