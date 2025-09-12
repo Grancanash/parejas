@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parejas</title>
+</head>
+
+<body>
+  <div class="container">
+    <main>
+      <div>
+        <h1>Ejercicio 8</h1>
+        <p>Juguemos a adivinar las parejas. Debes distribuir en la página una cuadrícula de 6 x 5 cajas. De las 30 cajas habrá 15 distintas. Cada par de cajas será de un color distinto. Inicialmente todas las cajas aparecerán negras. Cuando el usuario pinche sobre una caja, se revelará su auténtico color. En ese momento debes arrastrar la caja al lugar donde creas que se encuentra su pareja. Si aciertas, ambas cajas permanecerán boca arriba y ya no se podrá interactuar con ellas. Si fallas, las dos cajas volverán a su estado inicial. El programa debe detectar cuándo están todas las cajas emparejadas y cuánto tiempo has tardado en resolverlo.</p>
+        <a href="index.html" class="volver">Volver</a>
+      </div>
+      <section id="game">
+        <div class="contenido">
+          <div id="cuadricula"></div>
+        </div>
+
+        <div id="crono">
+          <div id="displaytime"></div>
+          <div><button id="reiniciar">Reinicar</button></div>
+        </div>
+
+        <div id="records">
+          <div>RÉCORDS</div>
+          <div>
+          </div>
+        </div>
+
+        <div id="msgnewrecord">
+          <div>
+            <p>¡¡Nuevo Récord!!</p>
+            <button id="btnNewRecord">Aceptar</button>
+          </div>
+        </div>
+
+        <div id="promptbox">
+          <div>
+            <form action="">
+              <p class="title">Introduce el tamaño de la rejilla:</p>
+              <div>
+                <div>
+                  <div><label for="rows">Filas: <span id="rowsvalue">3</span></label></div>
+                  <div><input type="range" id="rows" min="3" max="10" value="3"></div>
+                </div>
+                <div>
+                  <div><label for="cols">Columnas: <span id="colsvalue">4</span></label></div>
+                  <div><input type="range" id="cols" min="3" max="10" value="4"></div>
+                </div>
+                <span id="errormessage">El total de cartas debe ser un número par</span>
+              </div>
+              <button id="btn-sizegrid">Aceptar</button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=Saira:ital,wght@0,100..900;1,100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "Saira", sans-serif;
+    box-sizing: border-box;
+}
+
+p {
+    font-weight: 300;
+}
+
+a {
+    color: midnightblue;
+    &:hover {
+        color: rgb(79, 79, 136);
+    }
+    &:visited {
+        color: rgb(163, 122, 122);
+    }
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.lista-ejercicios {
+    margin: 0;
+    padding: 0;
+
+    li {
+        margin-top: 20px;
+        padding-left: 10px;
+    }
+}
+
+
+
+.container {
+    max-width: 1000px;
+    margin: 50px auto;
+}
+
+
+/******************************************/
+
+:root {
+    --nuevo-color: #222222;
+}
+
+.contenido {
+    margin-top: 20px;
+}
+
+#cuadricula {
+    display: grid;
+    gap: 5px;
+    background-color: black;
+    padding: 20px;
+}
+
+.card-container {
+    width: 100%;
+    position: relative;
+    perspective: 600px;
+    cursor: pointer;
+    
+    .card {
+        width: 100%;
+        height: 100%;
+        border-radius: 5px;
+        transform-style: preserve-3d;
+        transition: transform .3s ease;
+
+        .face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .front {
+            background-color: #222222;
+        }
+
+        .back {
+            background-color: #ffffff;
+            transform: rotateY(180deg);
+        }
+
+        &.flipped {
+            transform: rotateY(180deg);
+        }
+    }
+}
+
+#crono {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#displaytime {
+    width: 292px;
+    font-size: 3em;
+}
+
+#promptbox {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.70);
+    z-index: 1000;
+
+    >div {
+        position: relative;
+        width: 400px;
+        height: 300px;
+        top: 50vh;
+        left: 50vw;
+        transform: translate(-50%, -50%);
+        border-radius: 5px;
+        padding: 40px;
+        background: #ffffff;
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+
+            .title {
+                font-size: 20px;
+            }
+
+            > div {
+                display: flex;
+                flex-direction: column;
+                padding: 20px;
+                > div {
+                    display: flex;
+                    align-items: center;
+                    > div:nth-of-type(1) {
+                        flex: 1;
+                        font-size: 20px;
+                        span {
+                            margin-left: 5px;
+                        }
+                    }
+                    > div:nth-of-type(2) {
+                        flex: 1;
+                        input {
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+
+            #errormessage {
+                opacity: 0;
+                font-size: 14px;
+                color: red;
+            }
+        }
+    }
+}
+
+#records {
+    display:none;
+    margin-top: 20px;
+    font-size: 24px;
+
+    > div:first-of-type {
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    > div:last-of-type {
+        width: 400px;
+        margin:auto;
+        display: flex;
+        flex-wrap: wrap;
+        border-radius: 10px;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+        > div {
+            text-align: center;
+            width: calc(50%);
+            padding: 5px;
+
+            &:nth-child(1),
+            &:nth-child(2) {
+                padding: 20px;
+                font-size: 18px;
+                background-color: #dddddd;
+            }
+        }
+
+        
+    }
+}
+
+#msgnewrecord {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.70);
+    z-index: 1000;
+
+    > div {
+        position: relative;
+        width: 400px;
+        top: 50vh;
+        left: 50vw;
+        transform: translate(-50%, -50%);
+        border-radius: 5px;
+        padding: 40px;
+        background: #ffffff;
+        box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+        font-size: 26px;
+        text-align: center;
+
+        > button {
+            margin-top: 30px;
+        }
+    }
+}
