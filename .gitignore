@@ -1,8 +1,5 @@
-# Dependencias
+# Dependencias (¡esto nunca se sube!)
 node_modules/
-
-# Build output
-dist/
 
 # Archivos temporales del sistema
 .DS_Store
@@ -17,3 +14,16 @@ pnpm-debug.log*
 # Editor configs
 .vscode/
 .idea/
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# Coverage tests
+coverage/
+
+# Cache de framework
+.next/
+out/
+.cache/
