@@ -306,11 +306,11 @@ class Game {
     }
 
     handlerMouseMove = (e) => {
-        e.preventDefault();
 
         if (this.#currentCard) {
             if (this.#currentCard.resuelta) return;
             if (this.#dragging && this.#currentCard.volteada) {
+                e.preventDefault();
                 const element = this.#currentCard.element;
                 element.style.left = (e.clientX - this.#xIni) + 'px';
                 element.style.top = (e.clientY - this.#yIni) + 'px';
