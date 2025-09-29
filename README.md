@@ -2,8 +2,10 @@
 
 Juego de encontrar la pareja.
 
-En una rejilla de 6x5 cartas, se voltean una a una para descubrir su color. Cuando creas haber encontrado una pareja arrastras una carta sobre la otra para que ambas se volteen y seguir buscando el resto.
+En una rejilla de cartas se voltean una a una para descubrir su color. Cuando creas haber encontrado una pareja, arrastras una carta sobre la otra para que ambas se volteen y seguir buscando el resto.
 
-El fin es encontrar las 15 parejas en el menor itempo posible.
+El fin es encontrar todas las parejas en el menor tiempo posible.
+
+(Este juego no es responsive)
 
 <a href="https://grancanash.github.io/parejas/index.html">Visitar</a>
