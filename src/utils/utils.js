@@ -19,7 +19,7 @@ const createTimer = () => {
     let s = 0;
     let m = 0;
     let h = 0;
-    const timerStorage = JSON.parse(localStorage.getItem('timer'));
+    const timerStorage = JSON.parse(localStorage.getItem('parejas_timer'));
     if (timerStorage) {
         ms = timerStorage.ms;
         s = timerStorage.s;
@@ -44,9 +44,6 @@ const createTimer = () => {
                 h++;
             }
 
-            let crono = [h, m, s, ms];
-            localStorage.setItem('crono', JSON.stringify(crono));
-
             displayTime();
         }, 10);
     }
@@ -68,7 +65,7 @@ const createTimer = () => {
     const displayTime = () => {
         document.getElementById("displaytime").innerText =
             `${h < 10 ? "0" + h : h}:${m < 10 ? "0" + m : m}:${s < 10 ? "0" + s : s}:${ms < 10 ? "0" + ms : ms}`;
-        localStorage.setItem('timer', JSON.stringify({ h: h, m: m, s: s, ms: ms }));
+        localStorage.setItem('parejas_timer', JSON.stringify({ h: h, m: m, s: s, ms: ms }));
     }
     displayTime();
     return { start, stop, reset, getTime };

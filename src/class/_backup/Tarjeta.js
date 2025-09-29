@@ -1,4 +1,4 @@
-class Tarjeta {
+class Tarjeta extends EventTarget {
     #id;
     #color;
     #element;
@@ -6,6 +6,7 @@ class Tarjeta {
     #volteada;
 
     constructor(id, color, game) {
+        super();
         this.#id = id;
         this.#color = color;
         this.game = game;
@@ -25,7 +26,12 @@ class Tarjeta {
     }
 
     set volteada(valor) {
-        this.#volteada = valor;
+        if (valor !== this.#volteada) {
+            this.#volteada = valor;
+            this.dispatchEvent(new CustomEvent("cambioVolteada", {
+                'detail': { 'valor': valor }
+            }));
+        }
     }
 
     get resuelta() {
@@ -45,53 +51,36 @@ class Tarjeta {
         divFront.classList.add('face', 'front');
         const divBack = document.createElement('div');
         divBack.classList.add('face', 'back');
-        if (this.#volteada) divBack.style.backgroundColor = this.#color;
+        if (this.volteada) divBack.style.backgroundColor = this.#color;
         const divCard = document.createElement('div');
         divCard.id = this.#id;
         divCard.dataset.color = this.#color;
         divCard.classList.add('card');
-        if (this.#volteada) divCard.classList.add('flipped');
+        if (this.volteada) divCard.classList.add('flipped');
         divCard.append(divFront);
         divCard.append(divBack);
         const element = document.createElement('div');
         element.classList.add('card-container');
-        if (this.#volteada) element.style.cursor = 'inherit';
+        if (this.volteada) element.style.cursor = 'inherit';
         element.append(divCard);
-
         this.#element = element;
         this.initListeners();
         return element;
     }
 
-    voltear = () => {
+    openCard = () => {
         const card = this.#element.querySelector('.card');
+        card.querySelector('.back').style.backgroundColor = this.#color;
+        card.classList.toggle('flipped');
+        card.addEventListener('transitionend', e => {
+        }, { once: true });
+    }
 
-        if (!this.#volteada) {
-            if (this.game.abriendo) return;
-            this.game.abriendo = true;
-            card.querySelector('.back').style.backgroundColor = this.#color;
-            card.classList.toggle('flipped');
-            card.addEventListener('transitionend', e => {
-                this.game.abriendo = false;
-                this.#volteada = true;
-            }, { once: true });
-        } else {
-            if (!this.game.reiniciando && this.game.cerrando) return;
-            this.game.cerrando = true;
-            if (this.#resuelta) {
-                this.game.cerrando = false;
-                return;
-            }
-            card.classList.toggle('flipped');
-            card.addEventListener('transitionend', e => {
-                this.game.cerrando = false;
-                this.#volteada = false;
-                if (this.game.reiniciando) {
-                    this.game.checkFlips(this);
-                }
-            }, { once: true });
-        }
-
+    closeCard = () => {
+        const card = this.#element.querySelector('.card');
+        card.classList.toggle('flipped');
+        card.addEventListener('transitionend', e => {
+        }, { once: true });
     }
 
     initListeners = () => {
@@ -103,11 +92,21 @@ class Tarjeta {
         })
         this.#element.addEventListener('mouseup', () => {
             this.game.dragging = false;
-            this.game.checkFlips(this);
+            this.game.closeOpenCards(this);
             this.game.recolocar();
             this.game.checkMatch(this);
-            this.voltear();
+            if (!this.resuelta) {
+                if (this.volteada) {
+                    this.volteada = false;
+                } else {
+                    this.volteada = true;
+                }
+            }
         })
+        this.addEventListener("cambioVolteada", e => {
+            if (e.detail.valor) this.openCard();
+            else this.closeCard();
+        });
     }
 }
 

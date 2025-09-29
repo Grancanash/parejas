@@ -20,7 +20,7 @@ class Game {
         this.#timer = timer;
         this.#dragging = false;
         this.initListeners();
-        if (getStorage('records')) {
+        if (getStorage('parejas_records')) {
             this.displayRecords();
         }
     }
@@ -45,15 +45,15 @@ class Game {
     }
 
     static checkStorage = () => {
-        if (!localStorage.getItem('settings')) {
+        if (!localStorage.getItem('parejas_settings')) {
             this.resetStorage();
         };
     }
 
     static resetStorage = () => {
-        localStorage.removeItem('settings');
-        localStorage.removeItem('timer');
-        localStorage.removeItem('cards');
+        localStorage.removeItem('parejas_settings');
+        localStorage.removeItem('parejas_timer');
+        localStorage.removeItem('parejas_cards');
     }
 
     promptbox = () => {
@@ -79,26 +79,26 @@ class Game {
                 this.#rows = rows;
                 this.#cols = cols;
                 this.#totalCards = totalCards;
-                setStorage('settings', { 'rows': rows, 'cols': cols });
+                setStorage('parejas_settings', { 'rows': rows, 'cols': cols });
                 promptbox.style.display = 'none';
                 const colores = unsortList(this.generateColors());
                 this.initGrid(colores);
                 this.drawCards();
             }
         });
-        const settingsStorage = getStorage('settings');
+        const settingsStorage = getStorage('parejas_settings');
         if (settingsStorage) {
             this.#rows = settingsStorage.rows;
             this.#cols = settingsStorage.cols;
             this.#totalCards = settingsStorage.rows * settingsStorage.cols;
             if (settingsStorage.finjuego) this.#finJuego = settingsStorage.finjuego;
-            const cardsStorage = getStorage('cards');
+            const cardsStorage = getStorage('parejas_cards');
             const colores = cardsStorage.map(card => card.color);
             this.initGrid(colores);
             this.drawCards();
         } else {
-            localStorage.removeItem('timer');
-            localStorage.removeItem('cards');
+            localStorage.removeItem('parejas_timer');
+            localStorage.removeItem('parejas_cards');
             promptbox.style.display = 'block';
         }
     }
@@ -128,7 +128,7 @@ class Game {
     initGrid = (colors) => {
         this.#cards = [];
         let cards = []
-        const cardsStorage = getStorage('cards');
+        const cardsStorage = getStorage('parejas_cards');
         for (let id = 0; id < this.#totalCards; id++) {
             const card = new Tarjeta(id, colors[id], this);
             let resuelta = false;
@@ -141,7 +141,7 @@ class Game {
             this.#cards.push(card);
             cards.push({ id: id, color: colors[id], resuelta: resuelta, volteada: resuelta });
         }
-        setStorage('cards', cards);
+        setStorage('parejas_cards', cards);
     }
 
     drawCards = () => {
@@ -182,9 +182,9 @@ class Game {
                 this.#cards[prevId].volteada = true;
 
 
-                const cardsStorage = getStorage('cards');
+                const cardsStorage = getStorage('parejas_cards');
                 cardsStorage[currentCard.id].resuelta = cardsStorage[this.#cards[prevId].id].resuelta = true;
-                setStorage('cards', cardsStorage);
+                setStorage('parejas_cards', cardsStorage);
 
                 let resueltas = 0;
                 for (const card of this.#cards) {
@@ -196,9 +196,9 @@ class Game {
                 if (this.checkFinJuego()) {
                     this.#timer.stop();
                     this.#finJuego = true;
-                    const settingsStorage = getStorage('settings');
+                    const settingsStorage = getStorage('parejas_settings');
                     settingsStorage.finjuego = true;
-                    setStorage('settings', settingsStorage);
+                    setStorage('parejas_settings', settingsStorage);
                     this.checkRecords();
                 }
             }
@@ -207,21 +207,21 @@ class Game {
     }
 
     checkRecords = () => {
-        let recordsStorage = getStorage('records') || {};
+        let recordsStorage = getStorage('parejas_records') || {};
         const arrNewTime = this.#timer.getTime();
         const newTime = ((arrNewTime[0] * 60 + arrNewTime[1]) * 60 + arrNewTime[2]) * 100 + arrNewTime[3];
         const currentRecord = recordsStorage[this.#totalCards];
         if (!currentRecord || newTime < currentRecord) {
             // Nuevo récord
             recordsStorage[this.#totalCards] = newTime;
-            setStorage('records', recordsStorage);
+            setStorage('parejas_records', recordsStorage);
             this.displayRecords();
             document.getElementById('msgnewrecord').style.display = 'block';
         }
     }
 
     displayRecords = () => {
-        let recordsStorage = getStorage('records');
+        let recordsStorage = getStorage('parejas_records');
         if (recordsStorage) {
             const containerRecords = document.getElementById('records');
             if (!containerRecords.style.display) {
