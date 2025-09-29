@@ -84,29 +84,35 @@ class Tarjeta extends EventTarget {
     }
 
     initListeners = () => {
-        this.#element.addEventListener('mousedown', () => {
-            this.game.dragging = true;
-            this.game.toFront(this);
-            this.game.timerStart();
-            this.game.currentCard = this;
-        })
-        this.#element.addEventListener('mouseup', () => {
-            this.game.dragging = false;
-            this.game.closeOpenCards(this);
-            this.game.recolocar();
-            this.game.checkMatch(this);
-            if (!this.resuelta) {
-                if (this.volteada) {
-                    this.volteada = false;
-                } else {
-                    this.volteada = true;
-                }
-            }
-        })
+        this.#element.addEventListener('mousedown', this.handlerMouseDown)
+        this.#element.addEventListener('touchstart', this.handlerMouseDown)
+        this.#element.addEventListener('mouseup', this.handlerMouseUp)
+        this.#element.addEventListener('touchend', this.handlerMouseUp)
         this.addEventListener("cambioVolteada", e => {
             if (e.detail.valor) this.openCard();
             else this.closeCard();
         });
+    }
+
+    handlerMouseDown = () => {
+        this.game.dragging = true;
+        this.game.toFront(this);
+        this.game.timerStart();
+        this.game.currentCard = this;
+    }
+
+    handlerMouseUp = () => {
+        this.game.dragging = false;
+        this.game.closeOpenCards(this);
+        this.game.recolocar();
+        this.game.checkMatch(this);
+        if (!this.resuelta) {
+            if (this.volteada) {
+                this.volteada = false;
+            } else {
+                this.volteada = true;
+            }
+        }
     }
 }
 

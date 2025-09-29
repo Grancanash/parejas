@@ -294,35 +294,41 @@ class Game {
             document.getElementById('msgnewrecord').style.display = 'none';
         })
 
-        document.addEventListener('mousedown', e => {
-            this.#xIni = e.clientX;
-            this.#yIni = e.clientY;
-        });
+        document.addEventListener('mousedown', this.handlerMouseDown);
+        document.addEventListener('touchstart', this.handlerMouseDown);
+        document.addEventListener('mousemove', this.handlerMouseMove);
+        document.addEventListener('touchmove', this.handlerMouseMove, { passive: false });
+    }
 
-        document.addEventListener('mousemove', e => {
-            if (this.#currentCard) {
-                if (this.#currentCard.resuelta) return;
-                if (this.#dragging && this.#currentCard.volteada) {
-                    const element = this.#currentCard.element;
-                    element.style.left = (e.clientX - this.#xIni) + 'px';
-                    element.style.top = (e.clientY - this.#yIni) + 'px';
-                    element.style.pointerEvents = 'none';
-                    const elementBellow = document.elementFromPoint(e.clientX, e.clientY).parentElement;
-                    if (elementBellow.classList.contains('card')) {
-                        if (this.#prevElement) {
-                            const card = this.#prevElement.element.querySelector('.card');
-                            if (elementBellow !== card) {
-                                card.style.border = 'none';
-                            }
+    handlerMouseDown = (e) => {
+        this.#xIni = e.clientX;
+        this.#yIni = e.clientY;
+    }
+
+    handlerMouseMove = (e) => {
+        e.preventDefault();
+
+        if (this.#currentCard) {
+            if (this.#currentCard.resuelta) return;
+            if (this.#dragging && this.#currentCard.volteada) {
+                const element = this.#currentCard.element;
+                element.style.left = (e.clientX - this.#xIni) + 'px';
+                element.style.top = (e.clientY - this.#yIni) + 'px';
+                element.style.pointerEvents = 'none';
+                const elementBellow = document.elementFromPoint(e.clientX, e.clientY).parentElement;
+                if (elementBellow.classList.contains('card')) {
+                    if (this.#prevElement) {
+                        const card = this.#prevElement.element.querySelector('.card');
+                        if (elementBellow !== card) {
+                            card.style.border = 'none';
                         }
-                        this.#prevElement = this.#cards[elementBellow.id];
-                        elementBellow.style.border = 'dashed yellow'
                     }
-                    element.style.pointerEvents = 'auto';
+                    this.#prevElement = this.#cards[elementBellow.id];
+                    elementBellow.style.border = 'dashed yellow'
                 }
+                element.style.pointerEvents = 'auto';
             }
-        });
-
+        }
     }
 }
 
